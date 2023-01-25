@@ -37,7 +37,8 @@ client.on('message_create', msg => {
 		msg.getChat().then(chat => chat.markUnread());
 	}
 
-	if (msg.body.toLowerCase() == 'marco') {
+	const MARCO_LIST = ['marco', '*marco*', '~marco~', 'm4rc0', '_marco_'];
+	if (MARCO_LIST.includes(msg.body.toLowerCase())) {
 		msg.reply('Polo');
 		msg.getChat().then(chat => chat.markUnread());
 	}
