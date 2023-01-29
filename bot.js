@@ -36,6 +36,10 @@ client.on('ready', () => {
 	*/
 });
 
+function pick(arr) {
+	return arr[Math.floor(Math.random() * arr.length)];
+}
+
 client.on('message_create', async (msg) => {
 	if (msg.body.toLowerCase() == 'lindo' && msg.from == ID_MENCIA) {
 		msg.reply('Linda tu');
@@ -62,7 +66,7 @@ client.on('message_create', async (msg) => {
 	if (msg.body == '!sorteo') {
 		const chat = await msg.getChat();
 		const parts = chat.participants;
-		const user = parts[Math.floor(Math.random() * parts.length)].id;
+		const user = pick(parts).id;
 		const contact = await client.getContactById(user._serialized);
 		await chat.sendMessage(`@${user.user}`, {mentions: [contact]});
 	}
@@ -70,7 +74,7 @@ client.on('message_create', async (msg) => {
 		const dices = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 		const results = [];
 		for (let i=0; i<5; i++) {
-			results.push(dices[Math.floor(Math.random() * 6)]);
+			results.push(pick(dices));
 		}
 		msg.reply(results.join(' '));
 	}
@@ -80,10 +84,18 @@ client.on('message_create', async (msg) => {
 			const dices = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 			const results = [];
 			for (let i=0; i<n; i++) {
-				results.push(dices[Math.floor(Math.random() * 6)]);
+				results.push(pick(dices));
 			}
 			msg.reply(results.join(' '));
 		}
+	}
+	if (msg.body == '!carta') {
+		const suits = ['♥️', '♠️', '♦️', '♣️'];
+		const numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+		msg.reply(`${pick(numbers)}${pick(suits)}`);
+	}
+	if (msg.body == '!get_id') {
+		msg.reply(msg.from);
 	}
 });
 
