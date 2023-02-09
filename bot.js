@@ -98,6 +98,8 @@ client.on('message_create', async (msg) => {
 		else
 			msg.reply(`${pick(numbers)}${pick(suits)}`);
 	}
+	if (msg.body == '!moneda')
+		msg.reply(pick(['cruz\n❌', 'cara\n⭕']));
 	if (msg.body.slice(-3).toLowerCase() == 'uca' && msg.from != ID_MARCO)
 		msg.reply('mi poll* con peluca');
 	if (msg.body == '!get_id')
