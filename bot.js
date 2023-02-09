@@ -65,8 +65,14 @@ client.on('message_create', async (msg) => {
 		msg.reply('ping');
 	if (msg.body == '!sorteo') {
 		const chat = await msg.getChat();
-		const parts = chat.participants;
-		const user = pick(parts).id;
+		let user;
+		if (chat.isGroup) {
+			const parts = chat.participants;
+			user = pick(parts).id;
+		} else {
+			const id = pick([msg.to, msg.from]);
+			user = {_serialized: id, user: id.split('@')[0]};
+		}
 		const contact = await client.getContactById(user._serialized);
 		await chat.sendMessage(`@${user.user}`, {mentions: [contact]});
 	}
