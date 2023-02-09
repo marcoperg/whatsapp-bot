@@ -87,16 +87,21 @@ client.on('message_create', async (msg) => {
 				results.push(pick(dices));
 			}
 			msg.reply(results.join(' '));
-		}
+		} else
+			msg.reply('No te pases. Max 20');
 	}
 	if (msg.body == '!carta') {
 		const suits = ['♥️', '♠️', '♦️', '♣️'];
 		const numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-		msg.reply(`${pick(numbers)}${pick(suits)}`);
+		if ((await msg.getChat()).id._serialized == ID_MENCIA && msg.from == ID_MARCO)
+			msg.reply(`${pick(numbers)}${suits[0]}`);
+		else
+			msg.reply(`${pick(numbers)}${pick(suits)}`);
 	}
-	if (msg.body == '!get_id') {
+	if (msg.body.slice(-3).toLowerCase() == 'uca' && msg.from != ID_MARCO)
+		msg.reply('mi poll* con peluca');
+	if (msg.body == '!get_id')
 		msg.reply(msg.from);
-	}
 });
 
 client.on('authenticated', () => {
