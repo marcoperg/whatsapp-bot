@@ -4,7 +4,7 @@ const { CronJob } = require('cron');
 const axios = require('axios');
 require('dotenv').config()
 
-const { ID_BRUNO, ID_MENCIA, ID_MARCO, ID_JAPO } = process.env;
+const { ID_BRUNO, ID_MARCO, ID_JAPO } = process.env;
 
 const client = new Client({
 	authStrategy: new LocalAuth(),
@@ -27,13 +27,6 @@ client.on('qr', (qr) => {
 
 client.on('ready', () => {
 	console.log('Client is ready!');
-	/*
-	const arr = [];
-	for (let i=0; i<10000; i++) {
-		arr.push('a');
-	}
-	client.sendMessage(ID_MENCIA, arr.join(' '));
-	*/
 });
 
 function pick(arr) {
@@ -41,11 +34,6 @@ function pick(arr) {
 }
 
 client.on('message_create', async (msg) => {
-	if (msg.body.toLowerCase() == 'lindo' && msg.from == ID_MENCIA) {
-		msg.reply('Linda tu');
-		msg.getChat().then(chat => chat.markUnread());
-	}
-
 	const MARCO_LIST = ['marco', '*marco*', '~marco~', 'm4rc0', '_marco_', "m@rco"];
 	if (MARCO_LIST.includes(msg.body.toLowerCase())) {
 		msg.reply('Polo');
@@ -99,15 +87,10 @@ client.on('message_create', async (msg) => {
 	if (msg.body == '!carta') {
 		const suits = ['♥️', '♠️', '♦️', '♣️'];
 		const numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-		if ((await msg.getChat()).id._serialized == ID_MENCIA && msg.from == ID_MARCO)
-			msg.reply(`${pick(numbers)}${suits[0]}`);
-		else
-			msg.reply(`${pick(numbers)}${pick(suits)}`);
+		msg.reply(`${pick(numbers)}${pick(suits)}`);
 	}
 	if (msg.body == '!moneda')
 		msg.reply(pick(['cruz\n❌', 'cara\n⭕']));
-	if (msg.body.slice(-3).toLowerCase() == 'uca' && msg.from != ID_MARCO)
-		msg.reply('mi poll* con peluca');
 	if (msg.body == '!get_id')
 		msg.reply(msg.from);
 });
