@@ -4,6 +4,7 @@ node_modules
 
 # Whatsapp Web Js
 .wwebjs_auth/
+.wwebjs_cache/
 
 # Python
 __pycache__/
