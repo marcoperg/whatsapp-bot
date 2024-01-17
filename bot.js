@@ -2,6 +2,7 @@ const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const { CronJob } = require('cron');
 const axios = require('axios');
+const { evaluate } = require('mathjs');
 require('dotenv').config()
 
 const { ID_BRUNO, ID_MARCO, ID_JAPO, ID_VASCO } = process.env;
@@ -49,6 +50,16 @@ Marco - responde Polo
 `;
 
 client.on('message_create', async (msg) => {
+	try {
+		const inp = msg.body.trim();
+		const out = evaluate(inp).toString();
+		if (inp.toString() != out) {
+			msg.reply(out);
+			return;
+		}
+	} catch(e) {
+		console.log(e);
+	}
 	if (MARCO_LIST.includes(msg.body.toLowerCase())) {
 		msg.reply('Polo');
 		msg.getChat().then(chat => chat.markUnread());
@@ -143,7 +154,7 @@ client.on('message_create', async (msg) => {
 		msg.reply(HELP_MSG);
 
 });
-
+axios
 client.on('authenticated', () => {
 	console.log('AUTHENTICATED');
 });
