@@ -46,6 +46,7 @@ Estos son algunos de los comandos disponibles con el marco bot
 !yahoo - yahoooooooo
 ping - responde pong
 Marco - responde Polo
+math expr - si escribes una expresion matematica el marco bot hara todo lo posible por evaluarla y devolvera el resultado
 ============
 `;
 
