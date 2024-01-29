@@ -153,7 +153,19 @@ client.on('message_create', async (msg) => {
 	}
 	if (msg.body == '!ayuda' || msg.body == '!help')
 		msg.reply(HELP_MSG);
-
+	if (msg.body == '!everyone' && msg.from == ID_MARCO) {
+		const chat = await msg.getChat();
+		let parts;
+		if (chat.isGroup) {
+			parts = chat.participants;
+		} else {
+			const id = pick([msg.to, msg.from]);
+			parts = [{id: {_serialized: id, user: id.split('@')[0]}}];
+		}
+		const text = parts.map(user => `@${user.id.user}`).join(' ');
+		const contacts = await Promise.all(parts.map(user => client.getContactById(user.id._serialized)));
+		await chat.sendMessage(text, {mentions: contacts});
+	}
 });
 axios
 client.on('authenticated', () => {
